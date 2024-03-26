@@ -208,7 +208,7 @@ body{
   border-radius: var(--radius-large);
   background-image: url(./Assets/cards2.jpg);
   width: 40%;
-  height: 70vh;
+  height: 100vh;
   background-repeat: no-repeat;
   background-position: right;
   background-size: cover;
@@ -321,7 +321,7 @@ button > a {
   margin-left: auto;
 }
 .modal-title {
-  font-size: 30px;
+  font-size: 50px;
   font-family: var(--title-font);
   margin-bottom: 1rem;
 }
