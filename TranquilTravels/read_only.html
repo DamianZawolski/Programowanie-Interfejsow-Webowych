@@ -1,0 +1,103 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="stylesheet" href="./style.css" />
+
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Italiana&family=Roboto+Flex:opsz,wght@8..144,300&display=swap"
+      rel="stylesheet"
+    />
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css"
+    />
+    <title>Hotel</title>
+  </head>
+  <body>
+    <nav class="fixed-navigation">
+      <img class="logo" src="./Assets/logo.svg" />
+      <ul class="nav-links">
+        <li><a class="nav-link" href="index.html">Home</a></li>
+        <li><a class="nav-link" href="find.html"> Find offers</a></li>
+        <li><a class="nav-link" href="#browse">Add new offers</a></li>
+        <li><a class="nav-link" href="#rent">My offers</a></li>
+        <li><a class="nav-link" href="#">Favourites</a></li>
+        <button class="button primary">Log out</button>
+      </ul>
+      <button class="button primary hidden">Menu</button>
+    </nav>
+    <section id="hotel" class="hotel-section">
+      <p class="hotel-title">Serene Retret</p>
+
+      <div class="hotel-container">
+        <div class="hotel-image-container">
+            <div class="card-image2">
+                <button class="button"><p class="chip">Add to favourites<i class="fa fa-heart"></i></p></button>
+              </div>
+        </div>
+        
+        <div class="hotel-text">
+          <p><b>Location: </b> Madrid</p>
+          <p><b>Local category: ★★★★☆</b></p>
+          <p><b>Price:</b> 70€/room/night</p>
+          <p><b>Descripton:</b></p>
+          <p>
+            <br>
+            Lorem ipsum dolor, sit amet consectetur adipisicing elit. Saepe
+            nobis facere eligendi blanditiis cumque unde doloremque aperiam ipsa
+            explicabo dignissimos repellendus, magnam ipsam adipisci, fugit ea
+            nihil quibusdam velit? Debitis? Lorem ipsum dolor sit, amet
+            consectetur adipisicing elit. Velit atque delectus quidem id officia
+            ex fugit eveniet quibusdam tenetur? Praesentium, natus ullam!
+            Ducimus earum, exercitationem fuga animi odio omnis aliquam. Lorem
+            ipsum dolor sit amet consectetur adipisicing elit.
+          </p>
+          <button data-open-modal class="button primary">
+            Contact <i class="fa fa-envelope-o"></i>
+          </button>
+          <div class="hero-cards2">
+            <div class="card-image"></div>
+            <div class="card-image"></div>
+          </div>
+        </div>
+      </div>
+    </section>
+    <dialog data-modal class="modal">
+      <button data-close-modal class="button close">
+        <i class="fa fa-close"></i>
+      </button>
+      <p class="modal-title">Contact</p>
+      <p class="modal-text">You're contacting the [hotel name] hotel</p>
+      <form>
+        <input class="modal-input" />
+      </form>
+
+      <div class="modal-buttons">
+        <button data-close-modal class="button">Close</button>
+        <button class="button primary">
+          Send <i class="fa fa-envelope-o"></i>
+        </button>
+      </div>
+    </dialog>
+
+    <script>
+      const openButton = document.querySelector("[data-open-modal]");
+      const closeButtons = document.querySelectorAll("[data-close-modal]");
+      const modal = document.querySelector("[data-modal]");
+
+      openButton.addEventListener("click", () => {
+        modal.showModal();
+      });
+
+      closeButtons.forEach((closeButton) => {
+        closeButton.addEventListener("click", () => {
+          modal.close();
+        });
+      });
+    </script>
+  </body>
+</html>
