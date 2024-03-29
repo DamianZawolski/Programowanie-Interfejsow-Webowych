@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en" data-bs-theme="dark">
+<html lang="pl" data-bs-theme="dark">
 <head>
     <title>ToDoList</title>
     <link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css">
@@ -25,26 +25,26 @@
                 <h1 class="text-center mt-5">ToDoList</h1>
                 <div class="card mt-3">
                     <div class="card-header">
-                        Add Task
+                        Dodaj zadanie
                     </div>
                     <div class="card-body">
                         <form id="form">
                             <div class="mb-3">
-                                <label for="task" class="form-label">Task</label>
+                                <label for="task" class="form-label">Zadanie</label>
                                 <input type="text" class="form-control" id="task" name="task">
-                                <label for="date" class="form-label">Date</label>
+                                <label for="date" class="form-label">Data</label>
                                 <input type="date" class="form-control" id="date" name="date">
                             </div>
-                            <button type="submit" class="btn btn-secondary">Add Task</button>
+                            <button type="submit" class="btn btn-secondary">Dodaj zadanie</button>
                             
                         </form>
                     </div>
                 </div>
                 <div class="card mt-3">
                     <div class="card-header">
-                        Task List
+                        Lista zadań
                         <button class="btn btn-black float-end" id="restore"><i class="fa fa-angle-left"></i></button>
-                        <button class="btn btn-black float-end" id="clear">Clear</button>
+                        <button class="btn btn-black float-end" id="clear">Wyczyść</button>
                     </div>
                     <div class="card-body">
                         <ul class="list-group" id="taskList">
@@ -53,8 +53,202 @@
                 </div>
             </div>
         </div>
+        <div class="modal" id="modal">
+            <div class="modal-dialog">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title">Wystąpił błąd!</h5>
+                        <button type="button" class="btn-close" id="close-modal"></button>
+                    </div>
+                    <div class="modal-body">
+                        <p>Pola nie mogą być puste</p>
+                    </div>
+                </div>
+            </div>
+        </div>
     </div>
-    <script src="./script.js"></script>
+
+    <!-- modal for editing task-->
+    <div class="modal" id="editModal">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title">Edytuj zadanie</h5>
+                    <button type="button" class="btn-close" id="close-edit-modal"></button>
+                </div>
+                <div class="modal-body>
+                    <form id="edit-form">
+                        <div class="mb-3">
+                            <label for="edit-task" class="form-label">Zadanie</label>
+                            <input type="text" class="form-control" id="edit-task" name="edit-task">
+                            <label for="edit-date" class="form-label">Data</label>
+                            <input type="date" class="form-control" id="edit-date" name="edit-date">
+                        </div>
+                        <button type="button" class="btn btn-secondary" id="submit_edit">Edytuj zadanie</button>
+                    </form>
+        
+                    
+                </div>
+            </div>
+        </div>
+    </div>
+    
+
+    <script>
+        const form = document.getElementById('form');
+const task = document.getElementById('task');
+const taskList = document.getElementById('taskList');
+let deletedTask = '';
+
+
+
+
+taskList.addEventListener('click', function(e) {
+    if (e.target.tagName === 'BUTTON') {
+        if (e.target.textContent === 'Zrobione') {
+            //make the text strike through and change color to gray
+            e.target.parentElement.style.textDecoration = 'line-through';
+            e.target.parentElement.style.color = 'gray';
+            
+            
+            //add current time
+            const date = new Date();
+
+            const dateText = `              Data wykonania: ${date.getDate()}.${date.getMonth() + 1}.${date.getFullYear()} ${date.getHours()}:${date.getMinutes()}`;
+            const dateElement = document.createElement('span');
+            dateElement.textContent = dateText;
+            e.target.parentElement.appendChild(dateElement);
+
+            //change button text to 'Przywróć' and delete Edytuj button
+            e.target.textContent = 'Przywróć';
+
+
+            
+
+            
+        } else if (e.target.textContent === 'Przywróć') {
+            e.target.parentElement.style.textDecoration = 'none';
+            e.target.parentElement.style.color = 'white';
+            e.target.parentElement.removeChild(e.target.parentElement.lastChild);
+            e.target.parentElement.removeChild(e.target.parentElement.lastChild);
+            e.target.parentElement.removeChild(e.target.parentElement.lastChild);
+            e.target.parentElement.removeChild(e.target.parentElement.lastChild);
+            const task = e.target.parentElement.firstChild.textContent;
+            const date = e.target.parentElement.firstChild.textContent;
+            e.target.parentElement.textContent = `${task} - ${date}`;
+            const doneButton = document.createElement('button');
+            doneButton.className = 'btn btn-dark float-end';
+            doneButton.textContent = 'Zrobione';
+            e.target.parentElement.appendChild(doneButton);
+
+            const editButton = document.createElement('button');
+            editButton.className = 'btn btn-dark float-end';
+            editButton.textContent = 'Edytuj';
+            e.target.parentElement.appendChild(editButton);
+
+        } else if (e.target.textContent === 'Edit') {
+            const editModal = new bootstrap.Modal(document.getElementById('editModal'));
+            const closeEditModal = document.getElementById('close-edit-modal');
+            const editForm = document.getElementById('edit-form');
+            const editTask = document.getElementById('edit-task');
+            const editDate = document.getElementById('edit-date');
+            editModal.show();
+            editForm.addEventListener('submit', function(e) {
+                e.preventDefault();
+                //also add current time
+                e.target.parentElement.textContent = `${editTask.value} - ${editDate.value}`;
+                editModal.hide();
+            });
+            closeEditModal.addEventListener('click', function() {
+                editModal.hide();
+            });
+        } else {
+            deletedTask = e.target.parentElement.firstChild.textContent;
+        e.target.parentElement.remove();
+    }
+    }
+});
+
+
+const clear = document.getElementById('clear');
+clear.addEventListener('click', function() {
+    const tasks = taskList.children;
+    for (let i = 0; i < tasks.length; i++) {
+        deletedTask = tasks[i].firstChild.textContent;
+    }
+    taskList.innerHTML = '';
+});
+
+
+form.addEventListener('submit', function(e) {
+    e.preventDefault();
+    const taskValue = task.value;
+    const dateValue = date.value;
+    if (!taskValue || !dateValue) {
+        const modal = new bootstrap.Modal(document.getElementById('modal'));
+        const closeModal = document.getElementById('close-modal');
+        closeModal.addEventListener('click', function() {
+            modal.hide();
+        });
+        modal.show();
+        return;
+    }
+
+    const li = document.createElement('li');
+    li.className = 'list-group-item';
+    li.textContent = `${taskValue} - ${dateValue}`;
+    const button = document.createElement('button');
+    button.className = 'btn btn-secondary float-end';
+    button.textContent = 'X';
+    li.appendChild(button);
+    const doneButton = document.createElement('button');
+    doneButton.className = 'btn btn-dark float-end';
+    doneButton.textContent = 'Zrobione';
+    li.appendChild(doneButton);
+
+    const editButton = document.createElement('button');
+    editButton.className = 'btn btn-dark float-end';
+    editButton.textContent = 'Edytuj';
+    li.appendChild(editButton);
+
+    
+    taskList.appendChild(li);
+
+    task.value = '';
+    date.value = '';
+});
+
+const restore = document.getElementById('restore');
+restore.addEventListener('click', function() {
+    if (!deletedTask) {
+        return;
+    }
+    const li = document.createElement('li');
+    li.className = 'list-group-item';
+    li.textContent = deletedTask;
+    const button = document.createElement('button');
+    button.className = 'btn btn-secondary float-end';
+    button.textContent = 'X';
+    li.appendChild(button);
+    const doneButton = document.createElement('button');
+    doneButton.className = 'btn btn-dark float-end';
+    doneButton.textContent = 'Zrobione';
+    li.appendChild(doneButton);
+
+    const editButton = document.createElement('button');
+    editButton.className = 'btn btn-dark float-end';
+    editButton.textContent = 'Edytuj';
+    li.appendChild(editButton);
+
+    taskList.appendChild(li);
+    deletedTask = '';
+});
+
+
+
+
+
+    </script>
 </body>
     
 </html>
