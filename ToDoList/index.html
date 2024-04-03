@@ -41,12 +41,12 @@
                     </div>
                 </div>
                 <div class="card mt-3">
-                    <div class="card-header">
+                    <div class="card-header" id="tasks-header">
                         Lista zadań
                         <button class="btn btn-black float-end" id="restore"><i class="fa fa-angle-left"></i></button>
                         <button class="btn btn-black float-end" id="clear">Wyczyść</button>
                     </div>
-                    <div class="card-body">
+                    <div class="card-body" id="tasks-body">
                         <ul class="list-group" id="taskList">
                         </ul>
                     </div>
@@ -93,12 +93,48 @@
         </div>
     </div>
     
+<!-- Modal delete all items"-->
+<div class="modal" id="deleteModal">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="btn-close" id="close-delete-modal"></button>
+            </div>
+            <div class="modal-body">
+                <p id="delete-task"></p>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" id="delete">Tak</button>
+                <button type="button" class="btn btn-secondary" id="cancel">Nie</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Modal delete one item"-->
+<div class="modal" id="deleteOneModal">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="btn-close" id="close-delete-one-modal"></button>
+            </div>
+            <div class="modal-body">
+                <p id="delete-one-task"></p>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" id="delete-one">Tak</button>
+                <button type="button" class="btn btn-secondary" id="cancel-one">Nie</button>
+            </div>
+        </div>
+    </div>
+</div>
 
     <script>
         const form = document.getElementById('form');
 const task = document.getElementById('task');
 const taskList = document.getElementById('taskList');
 let deletedTask = '';
+
 
 
 
@@ -127,24 +163,16 @@ taskList.addEventListener('click', function(e) {
 
             
         } else if (e.target.textContent === 'Przywróć') {
+
             e.target.parentElement.style.textDecoration = 'none';
             e.target.parentElement.style.color = 'white';
-            e.target.parentElement.removeChild(e.target.parentElement.lastChild);
-            e.target.parentElement.removeChild(e.target.parentElement.lastChild);
-            e.target.parentElement.removeChild(e.target.parentElement.lastChild);
-            e.target.parentElement.removeChild(e.target.parentElement.lastChild);
-            const task = e.target.parentElement.firstChild.textContent;
-            const date = e.target.parentElement.firstChild.textContent;
-            e.target.parentElement.textContent = `${task} - ${date}`;
-            const doneButton = document.createElement('button');
-            doneButton.className = 'btn btn-dark float-end';
-            doneButton.textContent = 'Zrobione';
-            e.target.parentElement.appendChild(doneButton);
+            e.target.parentElement.lastChild.remove();
+            //change button text to 'Zrobione'
+            e.target.textContent = 'Zrobione';
 
-            const editButton = document.createElement('button');
-            editButton.className = 'btn btn-dark float-end';
-            editButton.textContent = 'Edytuj';
-            e.target.parentElement.appendChild(editButton);
+
+
+
 
         } else if (e.target.textContent === 'Edit') {
             const editModal = new bootstrap.Modal(document.getElementById('editModal'));
@@ -163,21 +191,55 @@ taskList.addEventListener('click', function(e) {
                 editModal.hide();
             });
         } else {
-            deletedTask = e.target.parentElement.firstChild.textContent;
-        e.target.parentElement.remove();
-    }
+
+            const modal = new bootstrap.Modal(document.getElementById('deleteOneModal'));
+            const deleteOneTask = document.getElementById('delete-one-task');
+            deleteOneTask.textContent = `Czy na pewno chcesz usunąć ${e.target.parentElement.firstChild.textContent}?`;
+            const closeDeleteOneModal = document.getElementById('close-delete-one-modal');
+            const deleteOneButton = document.getElementById('delete-one');
+            const cancelOneButton = document.getElementById('cancel-one');
+            modal.show();
+            deleteOneButton.addEventListener('click', function() {
+                deletedTask = e.target.parentElement.firstChild.textContent;
+                e.target.parentElement.remove();
+                modal.hide();   
+            });
+            cancelOneButton.addEventListener('click', function() {
+                modal.hide();
+            });
+            closeDeleteOneModal.addEventListener('click', function() {
+                modal.hide();
+            });
+        }
     }
 });
 
 
 const clear = document.getElementById('clear');
 clear.addEventListener('click', function() {
-    const tasks = taskList.children;
-    for (let i = 0; i < tasks.length; i++) {
-        deletedTask = tasks[i].firstChild.textContent;
-    }
-    taskList.innerHTML = '';
+    // make sure that the user wants to delete all tasks
+    const modal = new bootstrap.Modal(document.getElementById('deleteModal'));
+    const deleteTask = document.getElementById('delete-task');
+    deleteTask.textContent = `Czy na pewno chcesz usunąć wszystkie zadania? Operacja jest nieodwracalna!`;
+    const closeDeleteModal = document.getElementById('close-delete-modal');
+    const deleteButton = document.getElementById('delete');
+    const cancelButton = document.getElementById('cancel');
+    modal.show();
+    //add last task to deletedTask
+    deleteButton.addEventListener('click', function() {
+        taskList.innerHTML = '';
+        modal.hide();
+    });
+    cancelButton.addEventListener('click', function() {
+        modal.hide();
+    });
+    closeDeleteModal.addEventListener('click', function() {
+        modal.hide();
+    });
 });
+
+    
+    
 
 
 form.addEventListener('submit', function(e) {
