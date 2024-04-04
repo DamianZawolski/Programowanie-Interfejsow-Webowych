@@ -1,21 +1,22 @@
 <!DOCTYPE html>
 <html lang="pl" data-bs-theme="dark">
+
 <head>
     <title>ToDoList</title>
-    <link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css">
-    <link
-      rel="stylesheet"
-      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css"
-    />
+    <link rel="stylesheet" type="text/css"
+        href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css" />
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
-    
+
 
 </head>
+
 <body>
     <nav class="navbar navbar-expand-lg navbar-light bg-dark">
         <div class="container">
             <a class="navbar-brand" href="#">ToDoList</a>
-            <a class="navbar-brand" href="https://github.com/DamianZawolski"><i class="fa fa-git" style="font-size:24px;color:white"></i></a>
+            <input class="form-control me-2" type="search" placeholder="Szukaj" aria-label="Search" id="Wyszukiwarka"">
+            <button class=" btn btn-secondary" type="submit-search">Szukaj</button>
         </div>
     </nav>
 
@@ -34,283 +35,117 @@
                                 <input type="text" class="form-control" id="task" name="task">
                                 <label for="date" class="form-label">Data</label>
                                 <input type="date" class="form-control" id="date" name="date">
+                                <label for="list_type" class="form-label">Typ listy</label>
+                                <select class="form-select" id="list_type" name="list_type">
+                                    <option value="1">Zadania priorytetowe</option>
+                                    <option value="2">Inne zadania</option>
+                                    <option value="3">Moje plany</option>
+                                </select>
+
                             </div>
                             <button type="submit" class="btn btn-secondary">Dodaj zadanie</button>
-                            
+
                         </form>
                     </div>
                 </div>
                 <div class="card mt-3">
-                    <div class="card-header" id="tasks-header">
-                        Lista zadań
-                        <button class="btn btn-black float-end" id="restore"><i class="fa fa-angle-left"></i></button>
-                        <button class="btn btn-black float-end" id="clear">Wyczyść</button>
+                    <div class="card-header" id="priority-header">
+                        <span id="priority-name">Zadania priorytetowe</span>
+                        <button class="btn btn-black float-end" id="restore_priority"><i
+                                class="fa fa-angle-left"></i></button>
+                        <button class="btn btn-black float-end" id="clear_priority">Wyczyść</button>
                     </div>
-                    <div class="card-body" id="tasks-body">
-                        <ul class="list-group" id="taskList">
+                    <div class="card-body" id="priority-body">
+                        <ul class="list-group" id="priorityList">
                         </ul>
                     </div>
                 </div>
-            </div>
-        </div>
-        <div class="modal" id="modal">
-            <div class="modal-dialog">
-                <div class="modal-content">
-                    <div class="modal-header">
-                        <h5 class="modal-title">Wystąpił błąd!</h5>
-                        <button type="button" class="btn-close" id="close-modal"></button>
+                <div class="card mt-3">
+                    <div class="card-header" id="others-header">
+                        <span id="others-name">Inne zadania</span>
+                        <button class="btn btn-black float-end" id="others_restore"><i
+                                class="fa fa-angle-left"></i></button>
+                        <button class="btn btn-black float-end" id="others_clear">Wyczyść</button>
                     </div>
-                    <div class="modal-body">
-                        <p>Pola nie mogą być puste</p>
+                    <div class="card-body" id="others-body">
+                        <ul class="list-group" id="othersList">
+                        </ul>
                     </div>
                 </div>
-            </div>
-        </div>
-    </div>
+                <div class="card mt-3">
+                    <div class="card-header" id="plans-header">
+                        <span id="plans-name">Moje plany</span>
+                        <button class="btn btn-black float-end" id="plans_restore"><i
+                                class="fa fa-angle-left"></i></button>
+                        <button class="btn btn-black float-end" id="plans_clear">Wyczyść</button>
+                    </div>
+                    <div class="card-body" id="plans-body">
+                        <ul class="list-group" id="plansList">
+                        </ul>
 
-    <!-- modal for editing task-->
-    <div class="modal" id="editModal">
-        <div class="modal-dialog">
-            <div class="modal-content">
-                <div class="modal-header">
-                    <h5 class="modal-title">Edytuj zadanie</h5>
-                    <button type="button" class="btn-close" id="close-edit-modal"></button>
+
+
+                    </div>
                 </div>
-                <div class="modal-body>
-                    <form id="edit-form">
-                        <div class="mb-3">
-                            <label for="edit-task" class="form-label">Zadanie</label>
-                            <input type="text" class="form-control" id="edit-task" name="edit-task">
-                            <label for="edit-date" class="form-label">Data</label>
-                            <input type="date" class="form-control" id="edit-date" name="edit-date">
+                <div class="modal" id="modal">
+                    <div class="modal-dialog">
+                        <div class="modal-content">
+                            <div class="modal-header">
+                                <h5 class="modal-title">Wystąpił błąd!</h5>
+                                <button type="button" class="btn-close" id="close-modal"></button>
+                            </div>
+                            <div class="modal-body">
+                                <p>Pola nie mogą być puste</p>
+                            </div>
                         </div>
-                        <button type="button" class="btn btn-secondary" id="submit_edit">Edytuj zadanie</button>
-                    </form>
-        
-                    
+                    </div>
                 </div>
             </div>
-        </div>
-    </div>
-    
-<!-- Modal delete all items"-->
-<div class="modal" id="deleteModal">
-    <div class="modal-dialog">
-        <div class="modal-content">
-            <div class="modal-header">
-                <button type="button" class="btn-close" id="close-delete-modal"></button>
+
+
+            <div class="modal" id="deleteModal">
+                <div class="modal-dialog">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <button type="button" class="btn-close" id="close-delete-modal"></button>
+                        </div>
+                        <div class="modal-body">
+                            <p id="delete-task"></p>
+                        </div>
+                        <div class="modal-footer">
+                            <button type="button" class="btn btn-secondary" id="delete">Tak</button>
+                            <button type="button" class="btn btn-secondary" id="cancel">Nie</button>
+                        </div>
+                    </div>
+                </div>
             </div>
-            <div class="modal-body">
-                <p id="delete-task"></p>
+
+
+            <div class="modal" id="deleteOneModal">
+                <div class="modal-dialog">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <button type="button" class="btn-close" id="close-delete-one-modal"></button>
+                        </div>
+                        <div class="modal-body">
+                            <p id="delete-one-task"></p>
+                        </div>
+                        <div class="modal-footer">
+                            <button type="button" class="btn btn-secondary" id="delete-one">Tak</button>
+                            <button type="button" class="btn btn-secondary" id="cancel-one">Nie</button>
+                        </div>
+                    </div>
+                </div>
             </div>
-            <div class="modal-footer">
-                <button type="button" class="btn btn-secondary" id="delete">Tak</button>
-                <button type="button" class="btn btn-secondary" id="cancel">Nie</button>
-            </div>
-        </div>
-    </div>
-</div>
-
-<!-- Modal delete one item"-->
-<div class="modal" id="deleteOneModal">
-    <div class="modal-dialog">
-        <div class="modal-content">
-            <div class="modal-header">
-                <button type="button" class="btn-close" id="close-delete-one-modal"></button>
-            </div>
-            <div class="modal-body">
-                <p id="delete-one-task"></p>
-            </div>
-            <div class="modal-footer">
-                <button type="button" class="btn btn-secondary" id="delete-one">Tak</button>
-                <button type="button" class="btn btn-secondary" id="cancel-one">Nie</button>
-            </div>
-        </div>
-    </div>
-</div>
-
-    <script>
-        const form = document.getElementById('form');
-const task = document.getElementById('task');
-const taskList = document.getElementById('taskList');
-let deletedTask = '';
+            <footer class="text-center mt-5">
+                <p>Damian Zawolski 260353</p>
+                <a class="navbar-brand" href="https://github.com/DamianZawolski"><i class="fa fa-git"
+                        style="font-size:24px;color:white"></i></a>
 
 
-
-
-
-taskList.addEventListener('click', function(e) {
-    if (e.target.tagName === 'BUTTON') {
-        if (e.target.textContent === 'Zrobione') {
-            //make the text strike through and change color to gray
-            e.target.parentElement.style.textDecoration = 'line-through';
-            e.target.parentElement.style.color = 'gray';
-            
-            
-            //add current time
-            const date = new Date();
-
-            const dateText = `              Data wykonania: ${date.getDate()}.${date.getMonth() + 1}.${date.getFullYear()} ${date.getHours()}:${date.getMinutes()}`;
-            const dateElement = document.createElement('span');
-            dateElement.textContent = dateText;
-            e.target.parentElement.appendChild(dateElement);
-
-            //change button text to 'Przywróć' and delete Edytuj button
-            e.target.textContent = 'Przywróć';
-
-
-            
-
-            
-        } else if (e.target.textContent === 'Przywróć') {
-
-            e.target.parentElement.style.textDecoration = 'none';
-            e.target.parentElement.style.color = 'white';
-            e.target.parentElement.lastChild.remove();
-            //change button text to 'Zrobione'
-            e.target.textContent = 'Zrobione';
-
-
-
-
-
-        } else if (e.target.textContent === 'Edit') {
-            const editModal = new bootstrap.Modal(document.getElementById('editModal'));
-            const closeEditModal = document.getElementById('close-edit-modal');
-            const editForm = document.getElementById('edit-form');
-            const editTask = document.getElementById('edit-task');
-            const editDate = document.getElementById('edit-date');
-            editModal.show();
-            editForm.addEventListener('submit', function(e) {
-                e.preventDefault();
-                //also add current time
-                e.target.parentElement.textContent = `${editTask.value} - ${editDate.value}`;
-                editModal.hide();
-            });
-            closeEditModal.addEventListener('click', function() {
-                editModal.hide();
-            });
-        } else {
-
-            const modal = new bootstrap.Modal(document.getElementById('deleteOneModal'));
-            const deleteOneTask = document.getElementById('delete-one-task');
-            deleteOneTask.textContent = `Czy na pewno chcesz usunąć ${e.target.parentElement.firstChild.textContent}?`;
-            const closeDeleteOneModal = document.getElementById('close-delete-one-modal');
-            const deleteOneButton = document.getElementById('delete-one');
-            const cancelOneButton = document.getElementById('cancel-one');
-            modal.show();
-            deleteOneButton.addEventListener('click', function() {
-                deletedTask = e.target.parentElement.firstChild.textContent;
-                e.target.parentElement.remove();
-                modal.hide();   
-            });
-            cancelOneButton.addEventListener('click', function() {
-                modal.hide();
-            });
-            closeDeleteOneModal.addEventListener('click', function() {
-                modal.hide();
-            });
-        }
-    }
-});
-
-
-const clear = document.getElementById('clear');
-clear.addEventListener('click', function() {
-    // make sure that the user wants to delete all tasks
-    const modal = new bootstrap.Modal(document.getElementById('deleteModal'));
-    const deleteTask = document.getElementById('delete-task');
-    deleteTask.textContent = `Czy na pewno chcesz usunąć wszystkie zadania? Operacja jest nieodwracalna!`;
-    const closeDeleteModal = document.getElementById('close-delete-modal');
-    const deleteButton = document.getElementById('delete');
-    const cancelButton = document.getElementById('cancel');
-    modal.show();
-    //add last task to deletedTask
-    deleteButton.addEventListener('click', function() {
-        taskList.innerHTML = '';
-        modal.hide();
-    });
-    cancelButton.addEventListener('click', function() {
-        modal.hide();
-    });
-    closeDeleteModal.addEventListener('click', function() {
-        modal.hide();
-    });
-});
-
-    
-    
-
-
-form.addEventListener('submit', function(e) {
-    e.preventDefault();
-    const taskValue = task.value;
-    const dateValue = date.value;
-    if (!taskValue || !dateValue) {
-        const modal = new bootstrap.Modal(document.getElementById('modal'));
-        const closeModal = document.getElementById('close-modal');
-        closeModal.addEventListener('click', function() {
-            modal.hide();
-        });
-        modal.show();
-        return;
-    }
-
-    const li = document.createElement('li');
-    li.className = 'list-group-item';
-    li.textContent = `${taskValue} - ${dateValue}`;
-    const button = document.createElement('button');
-    button.className = 'btn btn-secondary float-end';
-    button.textContent = 'X';
-    li.appendChild(button);
-    const doneButton = document.createElement('button');
-    doneButton.className = 'btn btn-dark float-end';
-    doneButton.textContent = 'Zrobione';
-    li.appendChild(doneButton);
-
-    const editButton = document.createElement('button');
-    editButton.className = 'btn btn-dark float-end';
-    editButton.textContent = 'Edytuj';
-    li.appendChild(editButton);
-
-    
-    taskList.appendChild(li);
-
-    task.value = '';
-    date.value = '';
-});
-
-const restore = document.getElementById('restore');
-restore.addEventListener('click', function() {
-    if (!deletedTask) {
-        return;
-    }
-    const li = document.createElement('li');
-    li.className = 'list-group-item';
-    li.textContent = deletedTask;
-    const button = document.createElement('button');
-    button.className = 'btn btn-secondary float-end';
-    button.textContent = 'X';
-    li.appendChild(button);
-    const doneButton = document.createElement('button');
-    doneButton.className = 'btn btn-dark float-end';
-    doneButton.textContent = 'Zrobione';
-    li.appendChild(doneButton);
-
-    const editButton = document.createElement('button');
-    editButton.className = 'btn btn-dark float-end';
-    editButton.textContent = 'Edytuj';
-    li.appendChild(editButton);
-
-    taskList.appendChild(li);
-    deletedTask = '';
-});
-
-
-
-
-
-    </script>
+            </footer>
+            <script src="script.js">
+            </script>
 </body>
-    
+
 </html>
