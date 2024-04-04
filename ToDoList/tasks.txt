@@ -1,3 +1,6 @@
+Dodatkowo dodałem możliwość czyszczenia całej zawartości poszczególnych list. Dodawane zadania poza treścią zawierają również daty.
+
+
 W repozytorium utworzyć nowy katalog, a w nim 2-3 pliki: index.html, script.js i style.css (if neded)
 Do napisania jest prosta stronka z ToDo listą.
 DONE +0.5 - strona posiada pole do wpisania i przycisk, który po kliknięciu dodaje nową pozycję do listy. Pozycja musi być niepusta!
