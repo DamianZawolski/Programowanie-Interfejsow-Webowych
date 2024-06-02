@@ -20,8 +20,13 @@ const Nav = () => {
                     </a>
                 </li>
                 <li>
-                    <a className="nav-link" href="" >
-                        Favorites
+                    <a className="nav-link" href="/chat" >
+                        Chat
+                    </a>
+                </li>
+                <li>
+                    <a className="nav-link" href="/cart">
+                        Cart
                     </a>
                 </li>
                 {!!user || <NavLink to="/login" className="button primary">Login</NavLink>}
