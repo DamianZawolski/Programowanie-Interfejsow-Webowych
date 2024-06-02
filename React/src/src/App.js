@@ -5,6 +5,7 @@ import BrowsePage from "./Pages/BrowsePage";
 import Login from "./Pages/Login";
 import SignUp from "./Pages/SignUp";
 import Chat from "./Chat/Chat";
+import Cart from "./Pages/Cart";
 import {
     createBrowserRouter,
     Route,
@@ -16,6 +17,7 @@ import { useEffect, useState } from "react";
 
 import { readOffers } from "./connections/hotelsService";
 import { useUser } from "./connections/userService";
+import { CartProvider } from "./Components/CartContext"; // Import CartProvider
 
 const router = createBrowserRouter(
     createRoutesFromElements(
@@ -23,8 +25,9 @@ const router = createBrowserRouter(
             <Route path="/" element={<Home />} />
             <Route path="/browse" element={<BrowsePage />} />
             <Route path="/login" element={<Login />} />
-            <Route path="/chat" element={<Chat />} />   
+            <Route path="/chat" element={<Chat />} />
             <Route path="/sign-up" element={<SignUp />} />
+            <Route path="/cart" element={<Cart />} />
         </Route>
     )
 );
@@ -38,10 +41,12 @@ function AppLayout() {
     }, [user]);
 
     return (
-        <div>
-            <Nav />
-            <Outlet id="outlet" context={[offers, setOffers]} />
-        </div>
+        <CartProvider>
+            <div>
+                <Nav />
+                <Outlet id="outlet" context={[offers, setOffers]} />
+            </div>
+        </CartProvider>
     );
 }
 

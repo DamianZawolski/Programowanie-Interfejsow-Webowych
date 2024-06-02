@@ -24,6 +24,11 @@ const Nav = () => {
                         Chat
                     </a>
                 </li>
+                <li>
+                    <a className="nav-link" href="/cart">
+                        Cart
+                    </a>
+                </li>
                 {!!user || <NavLink to="/login" className="button primary">Login</NavLink>}
                 {!!user && <button className="button primary" onClick={logout}>Log out {user?.displayName}</button>}
             </ul>
