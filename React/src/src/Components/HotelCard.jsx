@@ -8,14 +8,6 @@ const HotelCard = ({ id, name, description, location, stars, price, imageURL }) 
     const { dispatch } = useContext(CartContext); // Get dispatch function from CartContext
     const [addedToCart, setAddedToCart] = useState(false); // State to track if added to cart
 
-    const handleOfferClick = () => {
-        navigate("/hotel", {
-            state: {
-                id: id,
-            },
-        });
-    };
-
     const handleAddToCart = () => {
         dispatch({ type: 'ADD_TO_CART', payload: { id, name, description, price, imageURL } }); // Dispatch action to add to cart
         setAddedToCart(true); // Set addedToCart to true
@@ -39,7 +31,7 @@ const HotelCard = ({ id, name, description, location, stars, price, imageURL }) 
                 <p className="text-middle">{"★".repeat(stars) + "☆".repeat(5 - stars)}</p>
                 <p className="text-middle">{price}€/room</p>
             </div>
-            <button className="button primary" onClick={handleOfferClick}>
+            <button className="button primary">
                 View offer <img src={arrow} alt="arrow" />
             </button>
             <button className="button primary" onClick={handleAddToCart}>
