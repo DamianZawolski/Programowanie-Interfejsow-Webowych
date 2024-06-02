@@ -12,8 +12,6 @@ https://piw-zawolski.web.app/
 
 +3.0 Strona przeglądanie hotelów ładuje się jako komponent Reactowy
 
-+1.0 Mamy React-Router-Dom, który, po kliknięciu na dany hotel, przenosi na stronę danego hotelu
-
 **lab4:**
 
 +1.0 Logowanie przez Google
